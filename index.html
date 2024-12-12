@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+        href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <!--Title-->
+        <h1>Gourmet - Restaurant Italiens Traditionnels</h1>
+        <!--nav bar -->
+        <nav>
+            <ul>
+                <li><a href="index.html">Acceuil</a></li>
+                <li><a href="inscription.html">Registre</a></li>
+                <li><a href="connexion.html" id="in">Login</a></li>
+                <li><a href="#" onclick="effacer()" id="out">Logout</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <section id="block1">
+        <div class="container">
+            <div class="card" id="card1">
+                <img src="image/55e3d643425aa514ea89857dc62a357a1038c3e45551704876277dd796.jpg">
+                <h4>Plat1</h4>
+                <p>15$</p>
+                <button onclick="ajouter('Plat1',15)">Ajouter au panier</button>
+            </div>
+            <div class="card">
+                <img src="image/default_2021-01-27_27a5e1f7-1cc3-485c-90a7-f9db9ab01377.jpeg">
+                <h4>Plat2</h4>
+                <p>20$</p>
+                <button onclick="ajouter('Plat2' , 20)">Ajouter au panier</button>
+            </div>
+            <div class="card">
+                <img src="image/Fotolia_73219035_Subscription_Monthly_M.jpg">
+                <h4>Plat3</h4>
+                <p>25$</p>
+                <button onclick="ajouter('Plat3' , 25)">Ajouter au panier</button>
+            </div>
+            <div class="card">
+                <img src="image/pates.jpg">
+                <h4>Plat4</h4>
+                <p>75$</p>
+                <button onclick="ajouter('Plat4' , 75)">Ajouter au panier</button>
+            </div>
+            <div class="card">
+                <img src="image/th (1).jpg">
+                <h4>Plat5</h4>
+                <p>28$</p>
+                <button onclick="ajouter('Plat5' , 28)">Ajouter au panier</button>
+
+            </div>
+            <div class="card">
+                <img src="image/th (2).jpg">
+                <h4>Plat6</h4>
+                <p>20$</p>
+                <button onclick="ajouter('Plat6' , 20)">Ajouter au panier</button>
+
+            </div>
+
+        </div>
+    </section>
+    <section id="block2">
+        <div class="container">
+            <h3>Votre Panier</h3>
+            <ul id="list"></ul>
+                <p id="total"> </p>
+            <button onclick="commander()">Commander</button>
+        </div>
+    </section>
+    <footer>
+        <p><i class="las la-copyright"></i> 2024 Gourmet Restaurant. Tout les droits sont réservé.</p>
+    </footer>
+    <script>
+        function ajouter(nom, prix) {
+            const panier = JSON.parse(localStorage.getItem("panier")) || [];
+            const plat = panier.find(p => p.nom === nom);
+            if (plat) {
+                plat.quantite += 1;
+            } else {
+                panier.push({ nom, prix, quantite: 1 });
+            }
+            localStorage.setItem("panier", JSON.stringify(panier));
+            affichage()
+        }
+        function affichage() {
+            var list = document.getElementById("list");
+            var total = document.getElementById("total");
+            var para = JSON.parse(localStorage.getItem("panier"));
+            var totalprix = 0;
+            list.innerHTML =" "
+            para.forEach(produit => {
+                const li = document.createElement("li");
+                li.textContent = `${produit.nom} x ${produit.quantite} _ ${produit.quantite * produit.prix}$`
+                list.appendChild(li);
+                totalprix += produit.prix * produit.quantite;
+            })
+            total.textContent = `total:${totalprix}`;
+            
+        }
+
+        function commander() {
+            var test =  JSON.parse(localStorage.getItem("Users"));
+            if(test){
+                window.location.href = "commande.html";
+            }
+            else{window.location.href = "inscription.html";}
+        }
+        function effacer(){
+            localStorage.clear();
+            window.location.href="inscription.html"
+        }
+        function connecter(){
+            var test =  JSON.parse(localStorage.getItem("Users"));
+            if(test){
+                document.getElementById('in').hidden = true;
+            }else{
+                document.getElementById('out').hidden = true;
+            }
+        }
+        window.onload = connecter;
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
